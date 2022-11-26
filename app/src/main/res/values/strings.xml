@@ -1,3 +1,33 @@
 <resources>
+    <!-- Strings -->
     <string name="app_name">MTG Companion Mobile App</string>
+    <string name="button_addCard">Add Card</string>
+    <string name="cardName">Card Name</string>
+    <string name="cardPower">Power</string>
+    <string name="cardToughness">Toughness</string>
+    <string name="cardImageDescription">Card Art</string>
+    <string name="cardNeuCost">Neutral</string>
+    <string name="cardWhtCost">White</string>
+    <string name="cardBlkCost">Black</string>
+    <string name="cardRedCost">Red</string>
+    <string name="cardBluCost">Blue</string>
+    <string name="cardGrnCost">Green</string>
+    <string name="cardDescription">Description</string>
+
+    <!-- String Arrays -->
+    <string-array name="cardTypes">
+        <item>Artifact</item>
+        <item>Conspiracy</item>
+        <item>Creature</item>
+        <item>Enchantment</item>
+        <item>Instant</item>
+        <item>Land</item>
+        <item>Phenomenon</item>
+        <item>Plane</item>
+        <item>Planeswalker</item>
+        <item>Scheme</item>
+        <item>Sorcery</item>
+        <item>Tribal</item>
+        <item>Vanguard</item>
+    </string-array>
 </resources>
