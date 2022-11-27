@@ -38,6 +38,8 @@ class CardActivity : AppCompatActivity() {
                 for (i in app!!.cards.indices) {
                     i("Card[$i]: ${this.app.cards[i]}")
                 }
+                setResult(RESULT_OK)
+                finish()
             } else {
                 Snackbar.make(it, "Please Enter a card name", Snackbar.LENGTH_LONG).show()
             }

@@ -1,8 +1,8 @@
 package org.wit.mtgcompanion.models
 
 data class CardModel(
-    var name: String = "",
-    var type: String = "",
+    var name: String = "SampleName",
+    var type: String = "SampleType",
     var power: Short = 0,
     var toughness: Short = 0,
     var neutral: Short = 0,
@@ -11,5 +11,5 @@ data class CardModel(
     var red: Short = 0,
     var blue: Short = 0,
     var green: Short = 0,
-    var description: String = ""
+    var description: String = "SampleDescription"
 )
