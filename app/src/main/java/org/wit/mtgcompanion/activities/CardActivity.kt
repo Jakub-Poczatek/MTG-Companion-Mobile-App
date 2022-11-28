@@ -87,7 +87,7 @@ class CardActivity : AppCompatActivity() {
 
         registerImagePickerCallback()
         binding.cardArtImgVw.setOnClickListener{
-            showImagePicker(imageIntentLauncher)
+            showImagePicker(imageIntentLauncher, this)
         }
     }
 
@@ -134,7 +134,10 @@ class CardActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if(result.data != null){
                             i("Got Result ${result.data!!.data}")
-                            card.image = result.data!!.data!!
+                            val image = result.data!!.data!!
+                            contentResolver.takePersistableUriPermission(image, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            card.image = image
+
                             Picasso.get().load(card.image).into(binding.cardArtImgVw)
                         }
                     }
