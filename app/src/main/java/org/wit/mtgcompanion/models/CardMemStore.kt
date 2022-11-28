@@ -41,6 +41,10 @@ class CardMemStore: CardStore {
         }
     }
 
+    override fun delete(card: CardModel){
+        cards.remove(card)
+    }
+
     fun logAll() {
         cards.forEach{
             i("$it")
