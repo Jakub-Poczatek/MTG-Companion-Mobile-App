@@ -1,0 +1,5 @@
+<resources>
+    <!-- Integers -->
+    <integer name="cardPower">0</integer>
+    <integer name="cardToughness">0</integer>
+</resources>
