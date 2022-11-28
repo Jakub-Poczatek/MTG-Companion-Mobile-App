@@ -3,21 +3,19 @@ package org.wit.mtgcompanion.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import org.wit.mtgcompanion.R
+import org.wit.mtgcompanion.adapters.CardAdapter
+import org.wit.mtgcompanion.adapters.CardListener
 import org.wit.mtgcompanion.databinding.ActivityCardListBinding
-import org.wit.mtgcompanion.databinding.CardCardBinding
 import org.wit.mtgcompanion.main.MainApp
 import org.wit.mtgcompanion.models.CardModel
 
-class CardListActivity: AppCompatActivity(){
+class CardListActivity: AppCompatActivity(), CardListener{
 
     private lateinit var binding: ActivityCardListBinding
     lateinit var app: MainApp
@@ -31,7 +29,7 @@ class CardListActivity: AppCompatActivity(){
 
         val layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = CardAdapter(app.cards)
+        binding.recyclerView.adapter = CardAdapter(app.cards.findAll(), this)
 
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
@@ -53,39 +51,27 @@ class CardListActivity: AppCompatActivity(){
     }
 
     private val getResult =
-        registerForActivityResult(
+            registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
-        ){
-            if(it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.size)
-            }
+    ){
+        if(it.resultCode == Activity.RESULT_OK) {
+            (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
         }
-}
-
-class CardAdapter constructor(private var cards: List<CardModel>):
-        RecyclerView.Adapter<CardAdapter.MainHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val binding = CardCardBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return MainHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MainHolder, position: Int){
-        val card = cards[holder.adapterPosition]
-        holder.bind(card)
+    override fun onCardClick(card: CardModel) {
+        val launcherIntent = Intent(this, CardActivity::class.java)
+        launcherIntent.putExtra("card_edit", card)
+        getClickResult.launch(launcherIntent)
     }
 
-    override fun getItemCount(): Int = cards.size
-
-    class MainHolder(private val binding: CardCardBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(card: CardModel) {
-            binding.cardCardNameTxt.text = card.name
-            binding.cardCardTypeTxt.text = card.type
-            var powerToughnessString = "${card.power}/${card.toughness}"
-            binding.cardCardPowerToughnessTxt.text = powerToughnessString
-            var costString = "${card.neutral}/${card.white}/${card.black}/${card.red}/${card.blue}/${card.green}"
-            binding.cardCardCostTxt.text = costString
-            binding.cardCardDescriptionTxt.text = card.description
+    private val getClickResult =
+            registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+    ){
+        if(it.resultCode == Activity.RESULT_OK) {
+            (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
         }
     }
 }
+

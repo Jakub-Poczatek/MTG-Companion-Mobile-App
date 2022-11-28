@@ -1,6 +1,12 @@
 package org.wit.mtgcompanion.models
 
+import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class CardModel(
+    var id: Long = 0,
     var name: String = "SampleName",
     var type: String = "SampleType",
     var power: Short = 0,
@@ -11,5 +17,6 @@ data class CardModel(
     var red: Short = 0,
     var blue: Short = 0,
     var green: Short = 0,
-    var description: String = "SampleDescription"
-)
+    var description: String = "SampleDescription",
+    var image: Uri = Uri.EMPTY
+): Parcelable

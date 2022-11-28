@@ -14,6 +14,12 @@
     <string name="cardGrnCost">Green</string>
     <string name="cardDescription">Description</string>
     <string name="menu_addCard">Add</string>
+    <string name="menu_cancelCard">Cancel</string>
+    <string name="save_card">Save Card</string>
+    <string name="select_card_art">Select Card Art</string>
+
+    <!-- Error Strings -->
+    <string name="noCardName">Please enter a Card name</string>
 
     <!-- String Arrays -->
     <string-array name="cardTypes">
