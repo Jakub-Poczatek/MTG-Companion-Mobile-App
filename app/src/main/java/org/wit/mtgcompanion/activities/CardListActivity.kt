@@ -19,6 +19,7 @@ class CardListActivity: AppCompatActivity(), CardListener{
 
     private lateinit var binding: ActivityCardListBinding
     lateinit var app: MainApp
+    private var position: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,9 +60,10 @@ class CardListActivity: AppCompatActivity(), CardListener{
         }
     }
 
-    override fun onCardClick(card: CardModel) {
+    override fun onCardClick(card: CardModel, pos: Int) {
         val launcherIntent = Intent(this, CardActivity::class.java)
         launcherIntent.putExtra("card_edit", card)
+        position = pos
         getClickResult.launch(launcherIntent)
     }
 
@@ -71,7 +73,9 @@ class CardListActivity: AppCompatActivity(), CardListener{
     ){
         if(it.resultCode == Activity.RESULT_OK) {
             (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
-        }
+        } else
+            if(it.resultCode == 99)
+                (binding.recyclerView.adapter)?.notifyItemRemoved(position)
     }
 }
 

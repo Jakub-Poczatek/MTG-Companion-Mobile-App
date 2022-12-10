@@ -8,7 +8,7 @@ import org.wit.mtgcompanion.databinding.CardCardBinding
 import org.wit.mtgcompanion.models.CardModel
 
 interface CardListener {
-    fun onCardClick(card: CardModel)
+    fun onCardClick(card: CardModel, position: Int)
 }
 
 class CardAdapter constructor(private var cards: List<CardModel>, private val listener: CardListener):
@@ -36,7 +36,7 @@ class CardAdapter constructor(private var cards: List<CardModel>, private val li
             binding.cardCardDescriptionTxt.text = card.description
             Picasso.get().load(card.image).into(binding.cardCardArtImgView)
             binding.root.setOnClickListener {
-                listener.onCardClick(card)
+                listener.onCardClick(card, adapterPosition)
             }
         }
     }

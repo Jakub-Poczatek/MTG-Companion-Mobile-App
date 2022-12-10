@@ -44,7 +44,28 @@ class CardJSONStore(private val context: Context): CardStore {
     }
 
     override fun update(card: CardModel){
-        //
+        val cards = findAll() as ArrayList<CardModel>
+        var foundCard: CardModel? = cards.find { c -> c.id == card.id }
+        if(foundCard != null){
+            foundCard.name = card.name
+            foundCard.type = card.type
+            foundCard.power = card.power
+            foundCard.toughness = card.toughness
+            foundCard.neutral = card.neutral
+            foundCard.white = card.white
+            foundCard.black = card.black
+            foundCard.red = card.red
+            foundCard.blue = card.blue
+            foundCard.green = card.green
+            foundCard.description = card.description
+            foundCard.image = card.image
+        }
+        serialize()
+    }
+
+    override fun delete(card: CardModel) {
+        cards.remove(card)
+        serialize()
     }
 
     private fun serialize() {
