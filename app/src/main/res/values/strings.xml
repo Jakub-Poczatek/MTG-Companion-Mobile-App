@@ -19,8 +19,19 @@
     <string name="select_card_art">Select Card Art</string>
     <string name="menu_deleteCard">Delete</string>
 
+    <!-- Auth Strings -->
+    <string name="authEmail">Email</string>
+    <string name="authPassword">Password</string>
+    <string name="authImageDesc">App Logo</string>
+    <string name="authLoginBtn">Log In</string>
+    <string name="authRegisterBtn">Sign Up</string>
+    <string name="authClickHere">Press Here!</string>
+    <string name="authAlreadyRegistered">Already have an account?</string>
+    <string name="authNotRegistered">Don\'t have an account?</string>
+
     <!-- Error Strings -->
-    <string name="noCardName">Please enter a Card name</string>
+    <string name="noCardName">Please enter a card name</string>
+    <string name="invalidLogin">Invalid Email or Password</string>
 
     <!-- String Arrays -->
     <string-array name="cardTypes">
