@@ -74,9 +74,30 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/loginBtn"
+        android:text="@string/authLoginBtn"
         app:layout_constraintEnd_toEndOf="@id/authEmailTxt"
         app:layout_constraintStart_toStartOf="@id/authEmailTxt"
         app:layout_constraintTop_toBottomOf="@id/authPassTxt" />
+
+    <TextView
+        android:id="@+id/authAlternativeTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/authNotRegistered"
+        app:layout_constraintEnd_toStartOf="@id/authClickHereLink"
+        app:layout_constraintTop_toBottomOf="@id/authLoginBtn" />
+
+    <TextView
+        android:id="@+id/authClickHereLink"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:minHeight="48dp"
+        android:text="@string/authClickHere"
+        android:textColor="@color/design_default_color_primary"
+        app:layout_constraintEnd_toEndOf="@id/authLoginBtn"
+        app:layout_constraintTop_toTopOf="@id/authAlternativeTxt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

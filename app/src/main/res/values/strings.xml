@@ -23,7 +23,11 @@
     <string name="authEmail">Email</string>
     <string name="authPassword">Password</string>
     <string name="authImageDesc">App Logo</string>
-    <string name="loginBtn">Log In</string>
+    <string name="authLoginBtn">Log In</string>
+    <string name="authRegisterBtn">Sign Up</string>
+    <string name="authClickHere">Press Here!</string>
+    <string name="authAlreadyRegistered">Already have an account?</string>
+    <string name="authNotRegistered">Don\'t have an account?</string>
 
     <!-- Error Strings -->
     <string name="noCardName">Please enter a card name</string>

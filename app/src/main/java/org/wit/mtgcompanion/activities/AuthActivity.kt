@@ -18,6 +18,7 @@ class AuthActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityAuthBinding
     lateinit var app: MainApp
+    var existing = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +28,28 @@ class AuthActivity: AppCompatActivity() {
 
         app = application as MainApp
         i("Auth Activity started...")
+
+        if(intent.hasExtra("sign_up")){
+            existing = false
+            binding.authAlternativeTxt.setText(R.string.authAlreadyRegistered)
+            binding.authLoginBtn.setText(R.string.authRegisterBtn)
+        }
+
+        if(intent.hasExtra("sign_in")){
+            existing = true
+            binding.authAlternativeTxt.setText(R.string.authNotRegistered)
+            binding.authLoginBtn.setText(R.string.authLoginBtn)
+        }
+
         binding.authLoginBtn.setOnClickListener(){
             val email = binding.authEmailTxt.text.toString()
             val password = binding.authPassTxt.text.toString()
-            signUp(email, password)
+            if(existing) signIn(email, password) else signUp(email, password)
+        }
+
+        binding.authClickHereLink.setOnClickListener(){
+            i("Click Here got pressed")
+            flipFunction(savedInstanceState)
         }
     }
 
@@ -40,8 +59,7 @@ class AuthActivity: AppCompatActivity() {
                 task ->
                 if(task.isSuccessful) {
                     i("Login Successful")
-                    setResult(RESULT_OK)
-                    finish()
+                    startActivity(Intent(this, CardListActivity::class.java))
                 } else {
                     i("Login Failed")
                     Snackbar.make(binding.authLoginBtn, R.string.invalidLogin, Snackbar.LENGTH_LONG).show()
@@ -61,5 +79,19 @@ class AuthActivity: AppCompatActivity() {
                     Snackbar.make(binding.authLoginBtn, R.string.invalidLogin, Snackbar.LENGTH_LONG).show()
                 }
             }
+    }
+
+    fun flipFunction(savedInstanceState: Bundle?){
+        val launcherIntent = Intent(this, AuthActivity::class.java)
+        if(existing) launcherIntent.putExtra("sign_up", savedInstanceState)
+        else launcherIntent.putExtra("sign_in", savedInstanceState)
+        startActivity(launcherIntent)
+        if(existing){
+            binding.authLoginBtn.setText(R.string.authLoginBtn)
+            binding.authAlternativeTxt.setText(R.string.authNotRegistered)
+        } else {
+            binding.authLoginBtn.setText(R.string.authRegisterBtn)
+            binding.authAlternativeTxt.setText(R.string.authAlreadyRegistered)
+        }
     }
 }
