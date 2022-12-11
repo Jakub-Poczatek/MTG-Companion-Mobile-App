@@ -8,6 +8,9 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import org.wit.mtgcompanion.R
 import org.wit.mtgcompanion.adapters.CardAdapter
 import org.wit.mtgcompanion.adapters.CardListener
