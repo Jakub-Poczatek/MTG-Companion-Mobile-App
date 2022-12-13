@@ -17,7 +17,7 @@ class CardMemStore: CardStore {
     }
 
     override fun create(card: CardModel){
-        card.id = getId()
+        card.id = getId().toString()
         cards.add(card)
         logAll()
     }

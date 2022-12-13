@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CardModel(
-    var id: Long = 0,
+    var id: String = "0",
     var name: String = "SampleName",
     var type: String = "SampleType",
     var power: Short = 0,
