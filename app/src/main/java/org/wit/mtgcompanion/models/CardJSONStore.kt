@@ -38,7 +38,7 @@ class CardJSONStore(private val context: Context): CardStore {
     }
 
     override fun create(card: CardModel){
-        card.id = generateRandomId()
+        card.id = generateRandomId().toString()
         cards.add(card)
         serialize()
     }

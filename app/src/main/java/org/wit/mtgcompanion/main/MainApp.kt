@@ -1,10 +1,7 @@
 package org.wit.mtgcompanion.main
 
 import android.app.Application
-import org.wit.mtgcompanion.models.CardJSONStore
-import org.wit.mtgcompanion.models.CardMemStore
-import org.wit.mtgcompanion.models.CardModel
-import org.wit.mtgcompanion.models.CardStore
+import org.wit.mtgcompanion.models.*
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -15,8 +12,9 @@ class MainApp: Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        cards = CardJSONStore(applicationContext)
+        //cards = CardJSONStore(applicationContext)
         //cards = CardMemStore()
+        cards = CardDBStore()
         i("MTG Companion Started")
     }
 }

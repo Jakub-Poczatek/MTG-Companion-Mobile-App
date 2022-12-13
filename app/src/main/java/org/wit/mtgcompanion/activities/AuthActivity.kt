@@ -48,7 +48,6 @@ class AuthActivity: AppCompatActivity() {
         }
 
         binding.authClickHereLink.setOnClickListener(){
-            i("Click Here got pressed")
             flipFunction(savedInstanceState)
         }
     }
