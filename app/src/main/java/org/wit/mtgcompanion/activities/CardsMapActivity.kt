@@ -1,6 +1,7 @@
 package org.wit.mtgcompanion.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
@@ -13,10 +14,19 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
+import org.wit.mtgcompanion.BuildConfig.MAPS_API_KEY
 import org.wit.mtgcompanion.databinding.ActivityCardsMapBinding
 import org.wit.mtgcompanion.databinding.ContentCardsMapBinding
+import org.wit.mtgcompanion.models.PlaceModel
 import timber.log.Timber.e
 import timber.log.Timber.i
+
 
 class CardsMapActivity : AppCompatActivity() {
 
@@ -24,7 +34,10 @@ class CardsMapActivity : AppCompatActivity() {
     private lateinit var contentBinding: ContentCardsMapBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
-    lateinit var map: GoogleMap
+    private lateinit var map: GoogleMap
+    private lateinit var client: HttpClient
+    private val places = ArrayList<PlaceModel>()
+    private lateinit var loc: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +75,40 @@ class CardsMapActivity : AppCompatActivity() {
 
     private fun configureMap() {
         map.uiSettings.isZoomControlsEnabled = true
+
+    }
+
+    private fun findCardShops(){
+        runBlocking {
+            client = HttpClient()
+            var url: String =
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=card%20game%20shops%20near%20me&location=${loc.latitude}%2C${loc.longitude}&radius=10000&key=$MAPS_API_KEY"
+            val response = client.get(url)
+            //i("${response.body<String>()}")
+            val copy = JSONObject(response.body<String>())
+            //i("${copy.getJSONArray("results").getJSONObject(0)}")
+            for(j in 0 until copy.getJSONArray("results").length()){
+                var docPlace = copy.getJSONArray("results").getJSONObject(j)
+                var place = PlaceModel(
+                    name = docPlace.getString("name"),
+                    address = docPlace.getString("formatted_address"),
+                    loc = LatLng(
+                        docPlace.getJSONObject("geometry").getJSONObject("location").getDouble("lat"),
+                        docPlace.getJSONObject("geometry").getJSONObject("location").getDouble("lng")
+                    ),
+                    rating = docPlace.getDouble("rating"),
+                    totalUserRatings = docPlace.getInt("user_ratings_total"),
+                    open = docPlace.getJSONObject("opening_hours").getBoolean("open_now")
+                )
+                places.add(place)
+                //i("${copy.getJSONArray("results").getJSONObject(j).get("name")}")
+            }
+            places.forEach{
+                i("$it")
+                val options = MarkerOptions().title(it.name).position(it.loc)
+                map.addMarker(options)?.tag = it.name
+            }
+        }
     }
 
     private fun checkLocPermissions(){
@@ -79,12 +126,14 @@ class CardsMapActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun retrieveLocation(){
         try {
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, null)
                 .addOnSuccessListener { result ->
-                    var loc = LatLng(result.latitude, result.longitude)
+                    loc = LatLng(result.latitude, result.longitude)
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 16f))
+                    findCardShops()
                 }
                 .addOnFailureListener { error ->
                     e("Error occurred whilst retrieving current location: $error")
@@ -96,8 +145,9 @@ class CardsMapActivity : AppCompatActivity() {
     }
 
     private fun retrieveDefaultLocation(){
-        var loc = LatLng(52.245696, -7.139102)
+        loc = LatLng(52.245696, -7.139102)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 16f))
+        findCardShops()
     }
 
     override fun onDestroy() {
