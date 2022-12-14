@@ -29,6 +29,10 @@
     <string name="authAlreadyRegistered">Already have an account?</string>
     <string name="authNotRegistered">Don\'t have an account?</string>
 
+    <!-- Map Strings -->
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_cards_map">Map of Nearest Card Shops</string>
+
     <!-- Error Strings -->
     <string name="noCardName">Please enter a card name</string>
     <string name="invalidLogin">Invalid Email or Password</string>
