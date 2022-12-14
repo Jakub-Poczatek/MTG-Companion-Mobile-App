@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import org.wit.mtgcompanion.R
@@ -33,7 +32,6 @@ class CardListActivity: AppCompatActivity(), CardListener{
         val layoutManager = GridLayoutManager(this, 2)
         binding.cardListRecycleView.layoutManager = layoutManager
         binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
-        i("Printing all cards")
         binding.menuToolbar.title = title
         setSupportActionBar(binding.menuToolbar)
 
@@ -44,15 +42,26 @@ class CardListActivity: AppCompatActivity(), CardListener{
         }
 
         binding.cardListSearchTxt.addTextChangedListener {
-            var query = binding.cardListSearchTxt.text.toString()
+            var query = binding.cardListSearchTxt.text.toString().lowercase().trim()
             var cards = app.cards.findAll()
             var filteredCards = ArrayList<CardModel>()
-            if(binding.cardListSearchBySpinner.selectedItem.toString() == "name")
-                for(card in cards){
-                    if(query in card.name)
+            if(query.isEmpty()) {
+                binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
+            } else if(binding.cardListSearchBySpinner.selectedItem.toString() == "name") {
+                for (card in cards) {
+                    if (query in card.name.lowercase().trim())
                         filteredCards.add(card)
                 }
-            binding.cardListRecycleView.adapter = CardAdapter(filteredCards, this)
+                binding.cardListRecycleView.adapter = CardAdapter(filteredCards, this)
+            } else if (binding.cardListSearchBySpinner.selectedItem.toString() == "type") {
+                for (card in cards) {
+                    if (query in card.type.lowercase().trim())
+                        filteredCards.add(card)
+                }
+                binding.cardListRecycleView.adapter = CardAdapter(filteredCards, this)
+            } else {
+                binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
+            }
         }
     }
 
@@ -63,7 +72,7 @@ class CardListActivity: AppCompatActivity(), CardListener{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         when(item.itemId){
-            R.id.menu_goto_home -> {
+            R.id.menu_goto_map -> {
                 startActivity(Intent(this, CardsMapActivity::class.java))
             }
         }
@@ -75,15 +84,14 @@ class CardListActivity: AppCompatActivity(), CardListener{
             ActivityResultContracts.StartActivityForResult()
     ){
         if(it.resultCode == Activity.RESULT_OK) {
+            binding.cardListSearchTxt.setText(R.string.testSearchQuery)
             binding.cardListSearchTxt.text.clear()
             (binding.cardListRecycleView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
-            i("Getting results right about now: ${app.cards.findAll().size}")
         }
     }
 
     override fun onCardClick(card: CardModel, pos: Int) {
         binding.cardListSearchTxt.text.clear()
-        binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
         val launcherIntent = Intent(this, CardActivity::class.java)
         launcherIntent.putExtra("card_edit", card)
         position = pos
@@ -95,11 +103,15 @@ class CardListActivity: AppCompatActivity(), CardListener{
             ActivityResultContracts.StartActivityForResult()
     ){
         if(it.resultCode == Activity.RESULT_OK) {
+            binding.cardListSearchTxt.setText(R.string.testSearchQuery)
             binding.cardListSearchTxt.text.clear()
             (binding.cardListRecycleView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
         } else
-            if(it.resultCode == 99)
+            if(it.resultCode == 99) {
+                binding.cardListSearchTxt.setText(R.string.testSearchQuery)
+                binding.cardListSearchTxt.text.clear()
                 (binding.cardListRecycleView.adapter)?.notifyItemRemoved(position)
+            }
     }
 }
 

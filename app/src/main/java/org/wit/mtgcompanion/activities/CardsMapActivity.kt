@@ -49,7 +49,7 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
         binding = ActivityCardsMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.menuToolbar)
+        setSupportActionBar(binding.menuMapToolbar)
 
         contentBinding = ContentCardsMapBinding.bind(binding.root)
         contentBinding.mapMpVw.onCreate(savedInstanceState)

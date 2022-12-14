@@ -19,6 +19,7 @@
     <string name="select_card_art">Select Card Art</string>
     <string name="menu_deleteCard">Delete</string>
     <string name="searchHint">Search</string>
+    <string name="testSearchQuery">Resetting the Searching</string>
 
     <!-- Auth Strings -->
     <string name="authEmail">Email</string>
