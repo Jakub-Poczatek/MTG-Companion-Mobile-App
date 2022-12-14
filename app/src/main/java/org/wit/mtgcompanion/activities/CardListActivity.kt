@@ -29,13 +29,13 @@ class CardListActivity: AppCompatActivity(), CardListener{
 
         app = application as MainApp
         val layoutManager = GridLayoutManager(this, 2)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = CardAdapter(app.cards.findAll(), this)
+        binding.cardListRecycleView.layoutManager = layoutManager
+        binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
         i("Printing all cards")
-        binding.toolbar.title = title
-        setSupportActionBar(binding.toolbar)
+        binding.menuToolbar.title = title
+        setSupportActionBar(binding.menuToolbar)
 
-        binding.floatingActionButton.setOnClickListener{
+        binding.menuFloatingAddButton.setOnClickListener{
             val launcherIntent = Intent(this, CardActivity::class.java)
             getResult.launch(launcherIntent)
         }
@@ -61,7 +61,7 @@ class CardListActivity: AppCompatActivity(), CardListener{
     ){
         if(it.resultCode == Activity.RESULT_OK) {
             var list = app.cards.findAll()
-            (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
+            (binding.cardListRecycleView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
             i("Getting results right about now: ${app.cards.findAll().size}")
         }
     }
@@ -78,10 +78,10 @@ class CardListActivity: AppCompatActivity(), CardListener{
             ActivityResultContracts.StartActivityForResult()
     ){
         if(it.resultCode == Activity.RESULT_OK) {
-            (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
+            (binding.cardListRecycleView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
         } else
             if(it.resultCode == 99)
-                (binding.recyclerView.adapter)?.notifyItemRemoved(position)
+                (binding.cardListRecycleView.adapter)?.notifyItemRemoved(position)
     }
 }
 
