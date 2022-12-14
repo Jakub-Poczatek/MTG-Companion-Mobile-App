@@ -14,6 +14,7 @@ import org.wit.mtgcompanion.adapters.CardListener
 import org.wit.mtgcompanion.databinding.ActivityCardListBinding
 import org.wit.mtgcompanion.main.MainApp
 import org.wit.mtgcompanion.models.CardModel
+import timber.log.Timber.i
 
 class CardListActivity: AppCompatActivity(), CardListener{
 
@@ -27,13 +28,17 @@ class CardListActivity: AppCompatActivity(), CardListener{
         setContentView(binding.root)
 
         app = application as MainApp
-
         val layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = CardAdapter(app.cards.findAll(), this)
-
+        i("Printing all cards")
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
+
+        binding.floatingActionButton.setOnClickListener{
+            val launcherIntent = Intent(this, CardActivity::class.java)
+            getResult.launch(launcherIntent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -43,9 +48,8 @@ class CardListActivity: AppCompatActivity(), CardListener{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         when(item.itemId){
-            R.id.item_add -> {
-                val launcherIntent = Intent(this, CardActivity::class.java)
-                getResult.launch(launcherIntent)
+            R.id.menu_goto_home -> {
+                startActivity(Intent(this, CardsMapActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
@@ -56,7 +60,9 @@ class CardListActivity: AppCompatActivity(), CardListener{
             ActivityResultContracts.StartActivityForResult()
     ){
         if(it.resultCode == Activity.RESULT_OK) {
+            var list = app.cards.findAll()
             (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
+            i("Getting results right about now: ${app.cards.findAll().size}")
         }
     }
 

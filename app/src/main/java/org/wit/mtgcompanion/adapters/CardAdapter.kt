@@ -29,9 +29,9 @@ class CardAdapter constructor(private var cards: List<CardModel>, private val li
         fun bind(card: CardModel, listener: CardListener) {
             binding.cardCardNameTxt.text = card.name
             binding.cardCardTypeTxt.text = card.type
-            var powerToughnessString = "${card.power}/${card.toughness}"
+            val powerToughnessString = "${card.power}/${card.toughness}"
             binding.cardCardPowerToughnessTxt.text = powerToughnessString
-            var costString = "${card.neutral}/${card.white}/${card.black}/${card.red}/${card.blue}/${card.green}"
+            val costString = "${card.neutral}/${card.white}/${card.black}/${card.red}/${card.blue}/${card.green}"
             binding.cardCardCostTxt.text = costString
             binding.cardCardDescriptionTxt.text = card.description
             Picasso.get().load(card.image).into(binding.cardCardArtImgView)
