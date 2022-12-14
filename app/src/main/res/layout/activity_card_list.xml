@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardListCoordLayout"
+    android:id="@+id/cardListConstLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.wit.mtgcompanion.activities.CardListActivity">
@@ -41,8 +41,8 @@
         android:id="@+id/menuFloatingAddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:contentDescription="@string/floatingIconAdd"
         app:layout_constraintBottom_toTopOf="@id/menuBottomToolbar"
@@ -54,6 +54,7 @@
         android:id="@+id/menuBottomToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:alpha="0.75"
         android:background="?attr/colorSecondaryVariant"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -61,5 +62,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/cardListSearchTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:hint="@string/searchHint"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:minWidth="128dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/menuBottomToolbar"
+        app:layout_constraintEnd_toStartOf="@id/cardListSearchBySpinner"
+        app:layout_constraintStart_toStartOf="@id/menuBottomToolbar"
+        app:layout_constraintTop_toTopOf="@id/menuBottomToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="TextContrastCheck" />
+
+    <Spinner
+        android:id="@+id/cardListSearchBySpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:entries="@array/searchTypes"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/menuBottomToolbar"
+        app:layout_constraintEnd_toEndOf="@id/menuBottomToolbar"
+        app:layout_constraintStart_toEndOf="@id/cardListSearchTxt"
+        app:layout_constraintTop_toTopOf="@id/menuBottomToolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

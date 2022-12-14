@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import org.wit.mtgcompanion.R
 import org.wit.mtgcompanion.adapters.CardAdapter
@@ -36,8 +38,21 @@ class CardListActivity: AppCompatActivity(), CardListener{
         setSupportActionBar(binding.menuToolbar)
 
         binding.menuFloatingAddButton.setOnClickListener{
+            binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
             val launcherIntent = Intent(this, CardActivity::class.java)
             getResult.launch(launcherIntent)
+        }
+
+        binding.cardListSearchTxt.addTextChangedListener {
+            var query = binding.cardListSearchTxt.text.toString()
+            var cards = app.cards.findAll()
+            var filteredCards = ArrayList<CardModel>()
+            if(binding.cardListSearchBySpinner.selectedItem.toString() == "name")
+                for(card in cards){
+                    if(query in card.name)
+                        filteredCards.add(card)
+                }
+            binding.cardListRecycleView.adapter = CardAdapter(filteredCards, this)
         }
     }
 
@@ -60,13 +75,15 @@ class CardListActivity: AppCompatActivity(), CardListener{
             ActivityResultContracts.StartActivityForResult()
     ){
         if(it.resultCode == Activity.RESULT_OK) {
-            var list = app.cards.findAll()
+            binding.cardListSearchTxt.text.clear()
             (binding.cardListRecycleView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
             i("Getting results right about now: ${app.cards.findAll().size}")
         }
     }
 
     override fun onCardClick(card: CardModel, pos: Int) {
+        binding.cardListSearchTxt.text.clear()
+        binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
         val launcherIntent = Intent(this, CardActivity::class.java)
         launcherIntent.putExtra("card_edit", card)
         position = pos
@@ -78,6 +95,7 @@ class CardListActivity: AppCompatActivity(), CardListener{
             ActivityResultContracts.StartActivityForResult()
     ){
         if(it.resultCode == Activity.RESULT_OK) {
+            binding.cardListSearchTxt.text.clear()
             (binding.cardListRecycleView.adapter)?.notifyItemRangeChanged(0, app.cards.findAll().size)
         } else
             if(it.resultCode == 99)
