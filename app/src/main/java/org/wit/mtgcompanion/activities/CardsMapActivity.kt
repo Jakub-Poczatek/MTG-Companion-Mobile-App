@@ -14,6 +14,7 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -28,7 +29,7 @@ import timber.log.Timber.e
 import timber.log.Timber.i
 
 
-class CardsMapActivity : AppCompatActivity() {
+class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     private lateinit var binding: ActivityCardsMapBinding
     private lateinit var contentBinding: ContentCardsMapBinding
@@ -73,9 +74,23 @@ class CardsMapActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun onMarkerClick(marker: Marker): Boolean {
+        var placeId = marker.tag.toString().toShort()
+        val foundPlace: PlaceModel? = places.find { p -> p.id == placeId}
+        contentBinding.mapPlaceNameTxt.text = foundPlace?.name
+        contentBinding.mapPlaceAddressTxt.text = foundPlace?.address
+        contentBinding.mapPlaceLocTxt.text = foundPlace?.loc.toString()
+        contentBinding.mapPlaceRatingTxt.text = foundPlace?.rating.toString()
+        contentBinding.mapTotalUserRatingsTxt.text = foundPlace?.totalUserRatings.toString()
+        if(foundPlace?.open!!) contentBinding.mapOpenTxt.text = "Open"
+        else contentBinding.mapOpenTxt.text = "Closed"
+        return false
+    }
+
     private fun configureMap() {
         map.uiSettings.isZoomControlsEnabled = true
-
+        map.setOnMarkerClickListener(this)
     }
 
     private fun findCardShops(){
@@ -90,6 +105,7 @@ class CardsMapActivity : AppCompatActivity() {
             for(j in 0 until copy.getJSONArray("results").length()){
                 var docPlace = copy.getJSONArray("results").getJSONObject(j)
                 var place = PlaceModel(
+                    id = j.toShort(),
                     name = docPlace.getString("name"),
                     address = docPlace.getString("formatted_address"),
                     loc = LatLng(
@@ -106,7 +122,7 @@ class CardsMapActivity : AppCompatActivity() {
             places.forEach{
                 i("$it")
                 val options = MarkerOptions().title(it.name).position(it.loc)
-                map.addMarker(options)?.tag = it.name
+                map.addMarker(options)?.tag = it.id
             }
         }
     }
@@ -132,7 +148,7 @@ class CardsMapActivity : AppCompatActivity() {
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, null)
                 .addOnSuccessListener { result ->
                     loc = LatLng(result.latitude, result.longitude)
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 16f))
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 12f))
                     findCardShops()
                 }
                 .addOnFailureListener { error ->
@@ -146,7 +162,7 @@ class CardsMapActivity : AppCompatActivity() {
 
     private fun retrieveDefaultLocation(){
         loc = LatLng(52.245696, -7.139102)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 16f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 12f))
         findCardShops()
     }
 
