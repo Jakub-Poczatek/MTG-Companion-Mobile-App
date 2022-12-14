@@ -8,7 +8,7 @@
     tools:context=".activities.CardsMapActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
+        android:id="@+id/menuMapAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -23,7 +23,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            app:menu="@menu/menu_map"
             app:titleTextColor="@color/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,6 +36,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/menuMapAppBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

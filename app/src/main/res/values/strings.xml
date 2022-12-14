@@ -39,6 +39,9 @@
     <string name="mapPlaceTotalUserRatings">0</string>
     <string name="mapPlaceOpen">True</string>
 
+    <!-- Menu Strings -->
+    <string name="floatingIconAdd">Floating Add Icon</string>
+
     <!-- Error Strings -->
     <string name="noCardName">Please enter a card name</string>
     <string name="invalidLogin">Invalid Email or Password</string>

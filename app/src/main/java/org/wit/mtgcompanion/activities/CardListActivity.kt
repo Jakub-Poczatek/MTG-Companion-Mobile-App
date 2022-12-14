@@ -8,9 +8,6 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import org.wit.mtgcompanion.R
 import org.wit.mtgcompanion.adapters.CardAdapter
 import org.wit.mtgcompanion.adapters.CardListener
@@ -37,6 +34,11 @@ class CardListActivity: AppCompatActivity(), CardListener{
         i("Printing all cards")
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
+
+        binding.floatingActionButton.setOnClickListener{
+            val launcherIntent = Intent(this, CardActivity::class.java)
+            getResult.launch(launcherIntent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -46,9 +48,8 @@ class CardListActivity: AppCompatActivity(), CardListener{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         when(item.itemId){
-            R.id.item_add -> {
-                val launcherIntent = Intent(this, CardActivity::class.java)
-                getResult.launch(launcherIntent)
+            R.id.menu_goto_home -> {
+                startActivity(Intent(this, CardsMapActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
