@@ -1,7 +1,11 @@
 package org.wit.mtgcompanion.activities
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +28,13 @@ class AuthActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         auth = Firebase.auth
+
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+
+            exitTransition = Slide(Gravity.LEFT)
+        }
+
         setContentView(binding.root)
 
         app = application as MainApp

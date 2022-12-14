@@ -1,10 +1,14 @@
 package org.wit.mtgcompanion.activities
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -15,7 +19,6 @@ import org.wit.mtgcompanion.adapters.CardListener
 import org.wit.mtgcompanion.databinding.ActivityCardListBinding
 import org.wit.mtgcompanion.main.MainApp
 import org.wit.mtgcompanion.models.CardModel
-import timber.log.Timber.i
 
 class CardListActivity: AppCompatActivity(), CardListener{
 
@@ -26,6 +29,13 @@ class CardListActivity: AppCompatActivity(), CardListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCardListBinding.inflate(layoutInflater)
+
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+
+            exitTransition = Slide(Gravity.TOP)
+        }
+
         setContentView(binding.root)
 
         app = application as MainApp
@@ -42,9 +52,9 @@ class CardListActivity: AppCompatActivity(), CardListener{
         }
 
         binding.cardListSearchTxt.addTextChangedListener {
-            var query = binding.cardListSearchTxt.text.toString().lowercase().trim()
-            var cards = app.cards.findAll()
-            var filteredCards = ArrayList<CardModel>()
+            val query = binding.cardListSearchTxt.text.toString().lowercase().trim()
+            val cards = app.cards.findAll()
+            val filteredCards = ArrayList<CardModel>()
             if(query.isEmpty()) {
                 binding.cardListRecycleView.adapter = CardAdapter(app.cards.findAll(), this)
             } else if(binding.cardListSearchBySpinner.selectedItem.toString() == "name") {
@@ -73,7 +83,7 @@ class CardListActivity: AppCompatActivity(), CardListener{
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         when(item.itemId){
             R.id.menu_goto_map -> {
-                startActivity(Intent(this, CardsMapActivity::class.java))
+                startActivity(Intent(this, CardsMapActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             }
         }
         return super.onOptionsItemSelected(item)
@@ -90,11 +100,11 @@ class CardListActivity: AppCompatActivity(), CardListener{
         }
     }
 
-    override fun onCardClick(card: CardModel, pos: Int) {
+    override fun onCardClick(card: CardModel, position: Int) {
         binding.cardListSearchTxt.text.clear()
         val launcherIntent = Intent(this, CardActivity::class.java)
         launcherIntent.putExtra("card_edit", card)
-        position = pos
+        this.position = position
         getClickResult.launch(launcherIntent)
     }
 

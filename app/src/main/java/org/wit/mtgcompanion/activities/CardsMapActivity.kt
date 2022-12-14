@@ -2,11 +2,16 @@ package org.wit.mtgcompanion.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -46,8 +51,14 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityCardsMapBinding.inflate(layoutInflater)
+
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+
+            exitTransition = Slide(Gravity.BOTTOM)
+        }
+
         setContentView(binding.root)
         setSupportActionBar(binding.menuMapToolbar)
 
@@ -178,7 +189,7 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_goto_home -> {
-                startActivity(Intent(this, CardListActivity::class.java))
+                startActivity(Intent(this, CardListActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             }
         }
         return super.onOptionsItemSelected(item)
