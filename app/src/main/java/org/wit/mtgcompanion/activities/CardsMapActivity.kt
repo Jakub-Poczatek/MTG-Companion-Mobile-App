@@ -2,8 +2,11 @@ package org.wit.mtgcompanion.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +25,7 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import org.wit.mtgcompanion.BuildConfig.MAPS_API_KEY
+import org.wit.mtgcompanion.R
 import org.wit.mtgcompanion.databinding.ActivityCardsMapBinding
 import org.wit.mtgcompanion.databinding.ContentCardsMapBinding
 import org.wit.mtgcompanion.models.PlaceModel
@@ -164,6 +168,20 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
         loc = LatLng(52.245696, -7.139102)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 12f))
         findCardShops()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_map, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_goto_home -> {
+                startActivity(Intent(this, CardListActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
