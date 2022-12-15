@@ -1,6 +1,5 @@
 package org.wit.mtgcompanion.activities
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.transition.Slide
@@ -22,7 +21,7 @@ class AuthActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityAuthBinding
     lateinit var app: MainApp
-    var existing = true
+    private var existing = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,18 +51,18 @@ class AuthActivity: AppCompatActivity() {
             binding.authLoginBtn.setText(R.string.authLoginBtn)
         }
 
-        binding.authLoginBtn.setOnClickListener(){
+        binding.authLoginBtn.setOnClickListener{
             val email = binding.authEmailTxt.text.toString()
             val password = binding.authPassTxt.text.toString()
             if(existing) signIn(email, password) else signUp(email, password)
         }
 
-        binding.authClickHereLink.setOnClickListener(){
+        binding.authClickHereLink.setOnClickListener{
             flipFunction(savedInstanceState)
         }
     }
 
-    fun signIn(email: String, password: String){
+    private fun signIn(email: String, password: String){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 task ->
@@ -77,7 +76,7 @@ class AuthActivity: AppCompatActivity() {
             }
     }
 
-    fun signUp(email: String, password: String){
+    private fun signUp(email: String, password: String){
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 task ->
@@ -91,7 +90,7 @@ class AuthActivity: AppCompatActivity() {
             }
     }
 
-    fun flipFunction(savedInstanceState: Bundle?){
+    private fun flipFunction(savedInstanceState: Bundle?){
         val launcherIntent = Intent(this, AuthActivity::class.java)
         if(existing) launcherIntent.putExtra("sign_up", savedInstanceState)
         else launcherIntent.putExtra("sign_in", savedInstanceState)

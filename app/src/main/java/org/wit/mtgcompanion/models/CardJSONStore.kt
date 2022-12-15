@@ -24,7 +24,7 @@ fun generateRandomId(): Long {
 
 class CardJSONStore(private val context: Context): CardStore {
 
-    var cards = mutableListOf<CardModel>()
+    private var cards = mutableListOf<CardModel>()
 
     init{
         if(exists(context, JSON_FILE)) {
@@ -45,7 +45,7 @@ class CardJSONStore(private val context: Context): CardStore {
 
     override fun update(card: CardModel){
         val cards = findAll() as ArrayList<CardModel>
-        var foundCard: CardModel? = cards.find { c -> c.id == card.id }
+        val foundCard: CardModel? = cards.find { c -> c.id == card.id }
         if(foundCard != null){
             foundCard.name = card.name
             foundCard.type = card.type
