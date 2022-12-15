@@ -50,10 +50,12 @@
         android:hint="@string/cardName"
         android:importantForAutofill="no"
         android:inputType="textShortMessage"
+        android:maxLength="64"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardArtImgVw"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayoutCardAdd" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayoutCardAdd"
+        tools:ignore="TextContrastCheck" />
 
     <Spinner
         android:id="@+id/cardTypeSpinner"
@@ -77,10 +79,12 @@
         android:hint="@string/cardPower"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardToughnessNumTxt"
         app:layout_constraintStart_toStartOf="@id/cardNameTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardTypeSpinner" />
+        app:layout_constraintTop_toBottomOf="@id/cardTypeSpinner"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardToughnessNumTxt"
@@ -92,10 +96,12 @@
         android:hint="@string/cardToughness"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@id/cardNameTxt"
         app:layout_constraintStart_toEndOf="@id/cardPowerNumTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardTypeSpinner" />
+        app:layout_constraintTop_toBottomOf="@id/cardTypeSpinner"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardNeuCostNumTxt"
@@ -107,10 +113,12 @@
         android:hint="@string/cardNeuCost"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardWhtCostNumTxt"
         app:layout_constraintStart_toStartOf="@id/cardNameTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt" />
+        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardWhtCostNumTxt"
@@ -123,10 +131,12 @@
         android:hint="@string/cardWhtCost"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardBlkCostNumTxt"
         app:layout_constraintStart_toEndOf="@id/cardNeuCostNumTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt" />
+        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardBlkCostNumTxt"
@@ -139,10 +149,12 @@
         android:hint="@string/cardBlkCost"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardRedCostNumTxt"
         app:layout_constraintStart_toEndOf="@id/cardWhtCostNumTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt" />
+        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardRedCostNumTxt"
@@ -155,10 +167,12 @@
         android:hint="@string/cardRedCost"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardBluCostNumTxt"
         app:layout_constraintStart_toEndOf="@id/cardBlkCostNumTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt" />
+        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardBluCostNumTxt"
@@ -171,10 +185,12 @@
         android:hint="@string/cardBluCost"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@id/cardGrnCostNumTxt"
         app:layout_constraintStart_toEndOf="@id/cardRedCostNumTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt" />
+        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardGrnCostNumTxt"
@@ -187,10 +203,12 @@
         android:hint="@string/cardGrnCost"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:maxLength="3"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@id/cardArtImgVw"
         app:layout_constraintStart_toEndOf="@id/cardBluCostNumTxt"
-        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt" />
+        app:layout_constraintTop_toBottomOf="@id/cardPowerNumTxt"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/cardDescriptionMLTxt"

@@ -21,9 +21,10 @@ class CardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCardBinding
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     lateinit var app: MainApp
-    var card = CardModel()
-    var edit = false
+    private var card = CardModel()
+    private var edit = false
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +56,7 @@ class CardActivity : AppCompatActivity() {
             Picasso.get().load(card.image).into(binding.cardArtImgVw)
         }
 
-        binding.addCardBtn.setOnClickListener(){
+        binding.addCardBtn.setOnClickListener{
             defaultNumericFields()
             card.name = binding.cardNameTxt.text.toString()
             card.type = binding.cardTypeSpinner.selectedItem.toString()

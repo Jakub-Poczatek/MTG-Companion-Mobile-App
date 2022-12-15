@@ -2,11 +2,15 @@ package org.wit.mtgcompanion.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -46,10 +50,16 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityCardsMapBinding.inflate(layoutInflater)
+
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+
+            exitTransition = Slide(Gravity.BOTTOM)
+        }
+
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.menuMapToolbar)
 
         contentBinding = ContentCardsMapBinding.bind(binding.root)
         contentBinding.mapMpVw.onCreate(savedInstanceState)
@@ -80,7 +90,7 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     @SuppressLint("SetTextI18n")
     override fun onMarkerClick(marker: Marker): Boolean {
-        var placeId = marker.tag.toString().toShort()
+        val placeId = marker.tag.toString().toShort()
         val foundPlace: PlaceModel? = places.find { p -> p.id == placeId}
         contentBinding.mapPlaceNameTxt.text = foundPlace?.name
         contentBinding.mapPlaceAddressTxt.text = foundPlace?.address
@@ -100,15 +110,15 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
     private fun findCardShops(){
         runBlocking {
             client = HttpClient()
-            var url: String =
+            val url =
                 "https://maps.googleapis.com/maps/api/place/textsearch/json?query=card%20game%20shops%20near%20me&location=${loc.latitude}%2C${loc.longitude}&radius=10000&key=$MAPS_API_KEY"
             val response = client.get(url)
             //i("${response.body<String>()}")
             val copy = JSONObject(response.body<String>())
             //i("${copy.getJSONArray("results").getJSONObject(0)}")
             for(j in 0 until copy.getJSONArray("results").length()){
-                var docPlace = copy.getJSONArray("results").getJSONObject(j)
-                var place = PlaceModel(
+                val docPlace = copy.getJSONArray("results").getJSONObject(j)
+                val place = PlaceModel(
                     id = j.toShort(),
                     name = docPlace.getString("name"),
                     address = docPlace.getString("formatted_address"),
@@ -178,7 +188,7 @@ class CardsMapActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_goto_home -> {
-                startActivity(Intent(this, CardListActivity::class.java))
+                startActivity(Intent(this, CardListActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             }
         }
         return super.onOptionsItemSelected(item)

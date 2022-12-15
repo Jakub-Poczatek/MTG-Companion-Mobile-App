@@ -18,6 +18,8 @@
     <string name="save_card">Save Card</string>
     <string name="select_card_art">Select Card Art</string>
     <string name="menu_deleteCard">Delete</string>
+    <string name="searchHint">Search</string>
+    <string name="testSearchQuery">Resetting the Searching</string>
 
     <!-- Auth Strings -->
     <string name="authEmail">Email</string>
@@ -38,6 +40,7 @@
     <string name="mapPlaceRating">0.0</string>
     <string name="mapPlaceTotalUserRatings">0</string>
     <string name="mapPlaceOpen">True</string>
+    <string name="mapStarDesc">Star Icon</string>
 
     <!-- Menu Strings -->
     <string name="floatingIconAdd">Floating Add Icon</string>
@@ -61,5 +64,9 @@
         <item>Sorcery</item>
         <item>Tribal</item>
         <item>Vanguard</item>
+    </string-array>
+    <string-array name="searchTypes">
+        <item>name</item>
+        <item>type</item>
     </string-array>
 </resources>

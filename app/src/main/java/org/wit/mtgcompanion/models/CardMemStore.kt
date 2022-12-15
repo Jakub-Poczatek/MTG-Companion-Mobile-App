@@ -10,7 +10,7 @@ internal fun getId(): Long {
 
 class CardMemStore: CardStore {
 
-    val cards = ArrayList<CardModel>()
+    private val cards = ArrayList<CardModel>()
 
     override fun findAll(): List<CardModel> {
         return cards
@@ -23,7 +23,7 @@ class CardMemStore: CardStore {
     }
 
     override fun update(card: CardModel) {
-        var foundCard: CardModel? = cards.find {c -> c.id == card.id}
+        val foundCard: CardModel? = cards.find {c -> c.id == card.id}
         if(foundCard != null){
             foundCard.name = card.name
             foundCard.type = card.type
@@ -45,7 +45,7 @@ class CardMemStore: CardStore {
         cards.remove(card)
     }
 
-    fun logAll() {
+    private fun logAll() {
         cards.forEach{
             i("$it")
         }
